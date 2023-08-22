@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StudentDetails</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-success navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/App/Index">App</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/App/Products">Products</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/App/Contact">Contact</a>
+            </li>
+        </ul>
+    </nav>
+
+    @{
+        string result;
+        decimal money = 10000000.00M;
+        if(ViewBag.Marks >= 50)
+        {
+            result = "pass";
+        }
+        else
+        {
+            result = "fail";
+        }
+    }
+
+    <div class="container-fluid">
+        <table class="table">
+            <tr>
+                <td>Student Name</td>
+                <td>@ViewBag.StuName</td>
+            </tr>
+
+            <tr>
+                <td>Student Age</td>
+                <td>@ViewBag.Age</td>
+            </tr>
+
+            <tr>
+                <td>Student Marks</td>
+                <td>@ViewBag.Marks</td>
+            </tr>
+            
+            <tr>
+                <td>Student Result</td>
+                <td>@result</td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    @if(result == "pass")
+                    {
+                        <span class="text-success">congratulations</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Better Luck Next Time</span>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Semesters
+                </td>
+                <td>
+                    <ul>
+                        @for(int sem = 1; sem <= ViewBag.NoOfSemesters; sem++)
+                        {
+                            <li>@sem</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Subjects</td>
+                <td>
+                    <ul>
+                        @foreach(var sub in ViewBag.Subjects)
+                        {
+                            <li>@sub</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <button type="button" class="btn btn-success" id="liveToastBtn">You have credited @money.ToString("C") in your wallet!</button>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img src="..." class="rounded me-2" alt="...">
+                    <strong class="me-auto">currency denomination</strong>
+                    <small>updated just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    You have credited @money.ToString("C") in your wallet!
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
