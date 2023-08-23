@@ -4,6 +4,11 @@ namespace mvc.Controllers
 {
     public class ActionController : Controller
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public ActionController(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         public IActionResult Index()
         {
             return View();
@@ -50,16 +55,18 @@ namespace mvc.Controllers
         // file result
         public IActionResult GetPaySlip(int empId)
         {
-            string fileName = "~/PaySlip" + empId + ".pdf";
-            string fullPath = @"C:\Users\SAILS-DM347\Downloads\PaySlip.pdf";
+            string rootPath = _hostingEnvironment.ContentRootPath;
+            string fileName = "PaySlip" + empId + ".pdf";
+            string fullPath = Path.Combine(rootPath, fileName);
+            /*string fullPath = @"C:\Users\SAILS-DM347\Downloads\PaySlip.pdf";*/
             if (System.IO.File.Exists(fullPath)) {
                 Console.WriteLine($"{fullPath} file exists");
+                return File(System.IO.File.OpenRead(fullPath), "application/pdf", fileName);
             }
             else
             {
-                Console.WriteLine($"{fullPath} file doesn't exist");
+                return Content($"Employee ID with {empId} doesn't exist");
             }
-            return File(fullPath, "application/pdf", "PaySlip.pdf");
         }
 
         // redirect result
@@ -70,8 +77,5 @@ namespace mvc.Controllers
             string url = "https://www." + web + ".com";
             return Redirect(url);
         }
-
-
-
     }
 }
